@@ -29,17 +29,8 @@ local M = {
 						i = {
 							["<C-j>"] = actions.move_selection_next,
 							["<C-k>"] = actions.move_selection_previous,
-							["<C-p>"] = fb_actions.goto_parent_dir,
-							["<C-n>"] = fb_actions.goto_cwd,
-
-							["<C-w>"] = function()
-								vim.cmd("normal vbd")
-							end,
 						},
 						n = {
-							["p"] = fb_actions.goto_parent_dir,
-							["n"] = fb_actions.goto_cwd,
-
 							["q"] = actions.close,
 						},
 					},
@@ -47,15 +38,14 @@ local M = {
 				extensions = {
 					file_browser = {
 						-- disables netrw and use telescope-file-browser in its place
+						initial_mode = "normal",
 						hijack_netrw = true,
 						mappings = {
-							-- your custom insert mode mappings
 							i = {
-								["<C-j>"] = actions.move_selection_next,
-								["<C-k>"] = actions.move_selection_previous,
+								["<C-p>"] = fb_actions.goto_parent_dir,
 							},
 							n = {
-								-- your custom normal mode mappings
+								["p"] = fb_actions.goto_parent_dir,
 								["/"] = function()
 									vim.cmd("startinsert")
 								end,
