@@ -4,7 +4,7 @@ local M = {
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
 		event = "BufReadPost",
-		dependencise = { "p00f/nvim-ts-rainbow" },
+		dependencies = { "p00f/nvim-ts-rainbow" },
 		opts = {
 			highlight = {
 				enable = true,
@@ -14,7 +14,7 @@ local M = {
 			autopairs = { enable = true },
 			autotag = { enable = true },
 			rainbow = {
-				enable = true,
+				enable = false,
 				disable = { "html" },
 				extended_mode = false,
 			},

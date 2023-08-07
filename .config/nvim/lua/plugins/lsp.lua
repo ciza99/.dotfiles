@@ -23,6 +23,7 @@ local M = {
 					"html",
 					"cssls",
 					"tailwindcss",
+					"emmet_ls",
 					-- "ocamllsp",
 				},
 				automatic_installation = true,
@@ -66,7 +67,7 @@ local M = {
 			local capabilities = cmp_nvim_lsp.default_capabilities()
 
 			-- change diagnostic symbols
-			local signs = { Error = " ", Warn = " ", Hint = "ﴞ ", Info = " " }
+			local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
 			for type, icon in pairs(signs) do
 				local hl = "DiagnosticSign" .. type
 				vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
@@ -82,11 +83,45 @@ local M = {
 			lspconfig["cssls"].setup({
 				on_attach = on_attach,
 				capabilities = capabilities,
+				settings = {
+					package_manager = "yarn",
+				},
+			})
+
+			lspconfig["emmet_ls"].setup({
+				on_attach = on_attach,
+				capabilities = capabilities,
+				filetypes = {
+					"css",
+					"html",
+					"javascript",
+					"javascriptreact",
+					"less",
+					"sass",
+					"scss",
+					"svelte",
+					"pug",
+					"typescriptreact",
+					"vue",
+				},
 			})
 
 			lspconfig["tsserver"].setup({
 				on_attach = on_attach,
 				capabilities = capabilities,
+			})
+
+			lspconfig["eslint"].setup({
+				on_attach = on_attach,
+				capabilities = capabilities,
+				filetypes = {
+					"javascript",
+					"javascript.jsx",
+					"javascriptreact",
+					"typescript",
+					"typescript.tsx",
+					"typescriptreact",
+				},
 			})
 
 			lspconfig["rust_analyzer"].setup({

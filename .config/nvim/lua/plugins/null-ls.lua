@@ -7,7 +7,7 @@ local M = {
 		local mason_null_ls = require("mason-null-ls")
 
 		local formatting = null_ls.builtins.formatting -- to setup formatters
-		local diagnostics = null_ls.builtins.diagnostics -- to setup linters
+		-- local diagnostics = null_ls.builtins.diagnostics -- to setup linters
 		local gitsigns = null_ls.builtins.code_actions.gitsigns -- to setup gitsigns
 
 		-- to setup format on save
@@ -17,7 +17,7 @@ local M = {
 			ensure_installed = {
 				"prettier",
 				"stylua",
-				"eslint_d",
+				-- "eslint",
 				"ocamlformat",
 			},
 			automatic_installation = true,
@@ -30,11 +30,7 @@ local M = {
 				formatting.prettier,
 				formatting.stylua,
 				gitsigns,
-				diagnostics.eslint_d.with({
-					condition = function(utils)
-						return utils.root_has_file(".eslintrc.js")
-					end,
-				}),
+				-- diagnostics.eslint,
 			},
 			-- configure format on save
 			on_attach = function(current_client, bufnr)
