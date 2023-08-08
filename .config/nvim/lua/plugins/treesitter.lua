@@ -1,5 +1,6 @@
 local M = {
 	{ "nvim-treesitter/playground", event = "VeryLazy" },
+	{ "p00f/nvim-ts-rainbow", event = "VeryLazy" },
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
@@ -14,6 +15,7 @@ local M = {
 			autopairs = { enable = true },
 			autotag = { enable = true },
 			rainbow = {
+				-- rainbow is broken right now
 				enable = false,
 				disable = { "html" },
 				extended_mode = false,
