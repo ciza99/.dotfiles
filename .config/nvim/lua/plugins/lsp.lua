@@ -35,8 +35,8 @@ local M = {
 				local opts = { noremap = true, silent = true, buffer = bufnr }
 
 				-- keybinds
-				map.set("n", "gf", "<cmd>Lspsaga lsp_finder<CR>", opts) -- show definition, references
-				map.set("n", "gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", opts) -- got to declaration
+				map.set("n", "gf", "<cmd>Lspsaga finder<CR>", opts) -- show definition, references
+				map.set("n", "gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", opts) -- go to declaration
 				map.set("n", "gd", "<cmd>Lspsaga goto_definition<CR>", opts) -- see definition and make edits in window
 				map.set("n", "gp", "<cmd>Lspsaga peek_definition<CR>", opts) -- see definition and make edits in window
 				map.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts) -- go to implementation

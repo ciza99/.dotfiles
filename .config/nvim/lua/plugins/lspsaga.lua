@@ -11,10 +11,10 @@ local M = {
 					scroll_up = "<C-k>",
 				},
 				finder = {
-					vsplit = "sv",
-					split = "sh",
+					vsplit = "<C-v>",
+					split = "<C-h>",
 					keys = {
-						expand_or_jump = "<CR>",
+						toggle_or_open = "<CR>",
 					},
 				},
 				definition = {
