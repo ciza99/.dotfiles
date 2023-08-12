@@ -1,0 +1,7 @@
+[user]
+	email = cizekmichal99@gmail.com
+	name = ciza99
+[core]
+	editor = nvim
+[init]
+	defaultBranch = main
