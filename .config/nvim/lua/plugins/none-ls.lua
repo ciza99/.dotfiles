@@ -1,5 +1,5 @@
-local M = {
-	"jose-elias-alvarez/null-ls.nvim",
+return {
+	"nvimtools/none-ls.nvim",
 	event = { "BufReadPre", "BufNewFile" },
 	dependencies = { "jay-babu/mason-null-ls.nvim" },
 	config = function()
@@ -18,9 +18,8 @@ local M = {
 				"prettier",
 				"stylua",
 				-- "eslint",
-				"ocamlformat",
+				-- "ocamlformat",
 			},
-			automatic_installation = true,
 		})
 
 		null_ls.setup({
@@ -54,5 +53,3 @@ local M = {
 		})
 	end,
 }
-
-return M

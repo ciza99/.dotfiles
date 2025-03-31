@@ -1,73 +1,67 @@
-local M = {
+return {
 	{
 		"neovim/nvim-lspconfig",
-		event = "BufReadPre",
+		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
 			"hrsh7th/cmp-nvim-lsp",
-			"williamboman/mason.nvim",
-			"williamboman/mason-lspconfig.nvim",
 		},
 		config = function()
 			local lspconfig = require("lspconfig")
-			local mason = require("mason")
-			local mason_lspconfig = require("mason-lspconfig")
-			local cmp = require("cmp")
 			local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
-			mason.setup()
-			mason_lspconfig.setup({
-				ensure_installed = {
-					"lua_ls",
-					"rust_analyzer",
-					"tsserver",
-					"html",
-					"cssls",
-					"tailwindcss",
-					"emmet_ls",
-					-- "ocamllsp",
-				},
-				automatic_installation = true,
-			})
+			vim.api.nvim_create_autocmd("LspAttach", {
+				group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+				callback = function(ev)
+					-- Buffer local mappings.
+					-- See `:help vim.lsp.*` for documentation on any of the below functions
+					local telescope_builtin = require("telescope.builtin")
 
-			local map = vim.keymap
+					local opts = { buffer = ev.buf, silent = true }
+					local map = function(mode, key, action)
+						vim.keymap.set(mode, key, action, opts)
+					end
 
-			local on_attach = function(_, bufnr)
-				local opts = { noremap = true, silent = true, buffer = bufnr }
+					-- set keybinds
+					map("n", "gR", telescope_builtin.lsp_references) -- show definition, references
 
-				-- keybinds
-				map.set("n", "gf", "<cmd>Lspsaga finder<CR>", opts) -- show definition, references
-				map.set("n", "gD", "<Cmd>lua vim.lsp.buf.declaration()<CR>", opts) -- go to declaration
-				map.set("n", "gd", "<cmd>Lspsaga goto_definition<CR>", opts) -- see definition and make edits in window
-				map.set("n", "gp", "<cmd>Lspsaga peek_definition<CR>", opts) -- see definition and make edits in window
-				map.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts) -- go to implementation
-				map.set("n", "<leader>ca", "<cmd>Lspsaga code_action<CR>", opts) -- see available code actions
-				map.set("n", "<leader>rn", "<cmd>Lspsaga rename<CR>", opts) -- smart rename
-				map.set("n", "<leader>D", "<cmd>Lspsaga show_line_diagnostics<CR>", opts) -- show  diagnostics for line
-				map.set("n", "<leader>d", "<cmd>Lspsaga show_cursor_diagnostics<CR>", opts) -- show diagnostics for cursor
-				map.set("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opts) -- jump to previous diagnostic in buffer
-				map.set("n", "]d", "<cmd>Lspsaga diagnostic_jump_next<CR>", opts) -- jump to next diagnostic in buffer
-				map.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", opts) -- show documentation for what is under cursor
-				map.set("n", "<leader>o", "<cmd>Lspsaga outline<CR>", opts) -- see outline on right hand side
+					map("n", "gD", vim.lsp.buf.declaration) -- go to declaration
 
-				map.set("n", "[e", function()
-					require("lspsaga.diagnostic"):goto_prev({ severity = vim.diagnostic.severity.ERROR })
-				end, opts)
+					map("n", "gd", telescope_builtin.lsp_definitions) -- show lsp definitions
 
-				map.set("n", "]e", function()
-					require("lspsaga.diagnostic"):goto_next({ severity = vim.diagnostic.severity.ERROR })
-				end, opts)
-			end
+					map("n", "gi", telescope_builtin.lsp_implementations) -- show lsp implementations
 
-			cmp.setup({
-				sources = {
-					{ name = "nvim_lsp" },
-				},
+					map("n", "gt", telescope_builtin.lsp_type_definitions) -- show lsp type definitions
+
+					map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action) -- see available code actions, in visual mode will apply to selection
+
+					map("n", "<leader>rn", vim.lsp.buf.rename) -- smart rename
+
+					map("n", "<leader>db", telescope_builtin.diagnostics) -- show  diagnostics for file
+
+					map("n", "<leader>df", vim.diagnostic.open_float) -- show diagnostics for line
+
+					map("n", "<leader>df", vim.diagnostic.open_float) -- show diagnostics for line
+
+					map("n", "<leader>df", vim.diagnostic.open_float) -- show diagnostics for line
+
+					map("n", "<leader>ds", telescope_builtin.lsp_document_symbols) -- show diagnostics for line
+
+					map("n", "<leader>ws", telescope_builtin.lsp_dynamic_workspace_symbols) -- show diagnostics for line
+
+					map("n", "[d", vim.diagnostic.goto_prev) -- jump to previous diagnostic in buffer
+
+					map("n", "]d", vim.diagnostic.goto_next) -- jump to next diagnostic in buffer
+
+					map("n", "K", vim.lsp.buf.hover) -- show documentation for what is under cursor
+
+					map("n", "<leader>rs", ":LspRestart<CR>") -- mapping to restart lsp if necessary
+				end,
 			})
 
 			local capabilities = cmp_nvim_lsp.default_capabilities()
 
-			-- change diagnostic symbols
-			local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+			-- Change the Diagnostic symbols in the sign column (gutter)
+			local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
 			for type, icon in pairs(signs) do
 				local hl = "DiagnosticSign" .. type
 				vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
@@ -76,12 +70,10 @@ local M = {
 			-- CONFIGURE SERVERS
 
 			lspconfig["html"].setup({
-				on_attach = on_attach,
 				capabilities = capabilities,
 			})
 
 			lspconfig["cssls"].setup({
-				on_attach = on_attach,
 				capabilities = capabilities,
 				settings = {
 					package_manager = "yarn",
@@ -89,7 +81,6 @@ local M = {
 			})
 
 			lspconfig["emmet_ls"].setup({
-				on_attach = on_attach,
 				capabilities = capabilities,
 				filetypes = {
 					"css",
@@ -106,13 +97,11 @@ local M = {
 				},
 			})
 
-			lspconfig["tsserver"].setup({
-				on_attach = on_attach,
+			lspconfig["ts_ls"].setup({
 				capabilities = capabilities,
 			})
 
 			lspconfig["eslint"].setup({
-				on_attach = on_attach,
 				capabilities = capabilities,
 				filetypes = {
 					"javascript",
@@ -125,23 +114,29 @@ local M = {
 			})
 
 			lspconfig["rust_analyzer"].setup({
-				on_attach = on_attach,
 				capabilities = capabilities,
 			})
 
 			lspconfig["tailwindcss"].setup({
-				on_attach = on_attach,
 				capabilities = capabilities,
+				settings = {
+					tailwindCSS = {
+						experimental = {
+							classRegex = {
+								{ "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
+								{ "cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
+							},
+						},
+					},
+				},
 			})
 
 			lspconfig["prismals"].setup({
-				on_attach = on_attach,
 				capabilities = capabilities,
 			})
 
 			lspconfig["lua_ls"].setup({
 				capabilities = capabilities,
-				on_attach = on_attach,
 				settings = {
 					Lua = {
 						runtime = {
@@ -164,22 +159,20 @@ local M = {
 				},
 			})
 
-			lspconfig["ocamllsp"].setup({
-				cmd = { "ocamllsp" },
-				filetypes = { "ocaml", "ocaml.menhir", "ocaml.interface", "ocaml.ocamllex", "reason", "dune" },
-				root_dir = lspconfig.util.root_pattern(
-					"*.opam",
-					"esy.json",
-					"package.json",
-					".git",
-					"dune-project",
-					"dune-workspace"
-				),
-				on_attach = on_attach,
-				capabilities = capabilities,
-			})
+			-- lspconfig["ocamllsp"].setup({
+			-- 	cmd = { "ocamllsp" },
+			-- 	filetypes = { "ocaml", "ocaml.menhir", "ocaml.interface", "ocaml.ocamllex", "reason", "dune" },
+			-- 	root_dir = lspconfig.util.root_pattern(
+			-- 		"*.opam",
+			-- 		"esy.json",
+			-- 		"package.json",
+			-- 		".git",
+			-- 		"dune-project",
+			-- 		"dune-workspace"
+			-- 	),
+			-- 	on_attach = on_attach,
+			-- 	capabilities = capabilities,
+			-- })
 		end,
 	},
 }
-
-return M

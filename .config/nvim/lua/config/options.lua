@@ -23,12 +23,13 @@ opt.signcolumn = "yes"
 opt.updatetime = 100
 
 -- hightlight yanked text for short time
-vim.cmd([[
-  augroup highlight_yank
-  autocmd!
-  au TextYankPost * silent! lua vim.highlight.on_yank({higroup="Visual", timeout=200})
-  augroup END
-]])
+vim.api.nvim_create_autocmd("TextYankPost", {
+	desc = "Highlight on yank",
+	group = vim.api.nvim_create_augroup("highlight_yank", { clear = true }),
+	callback = function()
+		vim.highlight.on_yank({ higroup = "Visual", timeout = 200 })
+	end,
+})
 
 -- tabs and indentation
 opt.tabstop = 2
@@ -57,6 +58,9 @@ opt.clipboard:append("unnamedplus")
 
 -- leader key
 vim.g.mapleader = " "
+
+-- show only one status line
+opt.laststatus = 3
 
 -- take `-` as part of words
 opt.iskeyword:append("-")

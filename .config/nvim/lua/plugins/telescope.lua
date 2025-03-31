@@ -1,16 +1,17 @@
-local M = {
+return {
 	{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 	{
 		"nvim-telescope/telescope.nvim",
-		tag = "0.1.1",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-telescope/telescope-fzf-native.nvim",
 			"nvim-telescope/telescope-file-browser.nvim",
+			"ThePrimeagen/git-worktree.nvim",
 		},
 		config = function()
 			local telescope = require("telescope")
 			local actions = require("telescope.actions")
+			local layout_actions = require("telescope.actions.layout")
 			local builtin = require("telescope.builtin")
 			local putils = require("telescope.previewers.utils")
 
@@ -52,11 +53,17 @@ local M = {
 					},
 					mappings = {
 						i = {
+							["<C-t>"] = layout_actions.toggle_preview,
 							["<C-j>"] = actions.move_selection_next,
 							["<C-k>"] = actions.move_selection_previous,
+							["<C-_>"] = actions.select_horizontal,
+							["<C-|>"] = actions.select_vertical,
 						},
 						n = {
+							["<C-t>"] = layout_actions.toggle_preview,
 							["q"] = actions.close,
+							["_"] = actions.select_horizontal,
+							["|"] = actions.select_vertical,
 						},
 					},
 				},
@@ -81,28 +88,40 @@ local M = {
 			})
 
 			telescope.load_extension("file_browser")
+			telescope.load_extension("git_worktree")
 
 			-- keymaps
 
 			local map = vim.keymap.set
 
-			map("n", "<leader>ff", function()
+			map("n", "<leader><leader>", function()
 				builtin.find_files({
-					no_ignore = false,
 					hidden = true,
 				})
 			end)
 
+			-- resume last opened cached picker
+			map("n", "<leader>fl", builtin.resume, {})
+			-- list alf cached pickers
+			map("n", "<leader>fp", builtin.pickers, {})
+
+			map("n", "<leader>fw", telescope.extensions.git_worktree.git_worktrees, {})
+			map("n", "<leader>nw", telescope.extensions.git_worktree.create_git_worktree, {})
+
+			map("n", "<leader>fh", ":Telescope harpoon marks<CR>", { desc = "[H]arpoon Marks" })
+			map("n", "<leader>fm", builtin.marks, { desc = "[M]arks" })
+			map("n", "<leader>/", builtin.current_buffer_fuzzy_find, {})
 			map("n", "<leader>fs", builtin.live_grep, {})
 			map("n", "<leader>fb", builtin.buffers, {})
-			map("n", "<leader>fh", builtin.help_tags, {})
+			map("n", "<leader>f?", builtin.help_tags, {})
 			map("n", "<leader>fc", builtin.grep_string, {})
 			map("n", "<leader>ft", builtin.treesitter, {})
+			map("n", "<leader>fa", builtin.commands, {})
+			map("n", "<leader>fq", builtin.quickfix, {})
 			map("n", "<leader>fe", function()
 				telescope.extensions.file_browser.file_browser({
 					path = "%:p:h",
 					cwd = telescope_buffer_dir(),
-					respect_gitignore = false,
 					hidden = true,
 					grouped = true,
 				})
@@ -118,5 +137,3 @@ local M = {
 		end,
 	},
 }
-
-return M

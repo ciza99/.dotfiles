@@ -1,13 +1,24 @@
-local M = {
+return {
 	{
-		"dinhhuy258/git.nvim",
-		event = "VeryLazy",
-		opts = {
-			keymaps = {
-				blame = "<leader>gB",
-				browse = "<leader>go",
-			},
+		"NeogitOrg/neogit",
+		dependencies = {
+			"nvim-lua/plenary.nvim", -- required
+			"sindrets/diffview.nvim", -- optional - Diff integration
+
+			"nvim-telescope/telescope.nvim", -- optional
 		},
+		opts = {},
+		config = function(_, opts)
+			local neogit = require("neogit")
+			neogit.setup(opts)
+
+			local map = vim.keymap.set
+
+			map("n", "<leader>gj", neogit.open, { silent = true, noremap = true })
+			map("n", "<leader>gc", ":Neogit commit<CR>", { silent = true, noremap = true })
+			map("n", "<leader>gp", ":Neogit pull<CR>", { silent = true, noremap = true })
+			map("n", "<leader>gP", ":Neogit push<CR>", { silent = true, noremap = true })
+		end,
 	},
 	{
 		"lewis6991/gitsigns.nvim",
@@ -23,9 +34,9 @@ local M = {
 				end
 
 				-- Navigation
-				map("n", "]c", function()
+				map("n", "]h", function()
 					if vim.wo.diff then
-						return "]c"
+						return "]h"
 					end
 					vim.schedule(function()
 						gs.next_hunk()
@@ -33,9 +44,9 @@ local M = {
 					return "<Ignore>"
 				end, { expr = true })
 
-				map("n", "[c", function()
+				map("n", "[h", function()
 					if vim.wo.diff then
-						return "[c"
+						return "[h"
 					end
 					vim.schedule(function()
 						gs.prev_hunk()
@@ -43,22 +54,27 @@ local M = {
 					return "<Ignore>"
 				end, { expr = true })
 
-				-- Actions
-				map({ "n", "v" }, "<leader>hs", ":Gitsigns stage_hunk<CR>")
+				map("n", "<leader>hs", gs.stage_hunk)
+				map("n", "<leader>hr", gs.reset_hunk)
+				map("v", "<leader>hs", function()
+					gs.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
+				end)
+				map("v", "<leader>hr", function()
+					gs.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
+				end)
 				map("n", "<leader>hS", gs.stage_buffer)
 				map("n", "<leader>hu", gs.undo_stage_hunk)
-				map({ "n", "v" }, "<leader>hr", ":Gitsigns reset_hunk<CR>")
 				map("n", "<leader>hR", gs.reset_buffer)
 				map("n", "<leader>hp", gs.preview_hunk)
 				map("n", "<leader>hb", function()
 					gs.blame_line({ full = true })
 				end)
-				map("n", "<leader>htb", gs.toggle_current_line_blame)
+				map("n", "<leader>tb", gs.toggle_current_line_blame)
 				map("n", "<leader>hd", gs.diffthis)
 				map("n", "<leader>hD", function()
 					gs.diffthis("~")
 				end)
-				map("n", "<leader>htd", gs.toggle_deleted)
+				map("n", "<leader>gtd", gs.toggle_deleted)
 
 				-- Text object
 				map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")
@@ -66,5 +82,3 @@ local M = {
 		},
 	},
 }
-
-return M

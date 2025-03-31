@@ -1,34 +1,86 @@
-local M = {
+return {
 	{ "petertriho/nvim-scrollbar", event = "VeryLazy", opts = {} },
 	{
-		"romgrk/barbar.nvim",
-		dependencies = {
-			"lewis6991/gitsigns.nvim",
-			"nvim-tree/nvim-web-devicons",
+		"stevearc/dressing.nvim",
+		opts = {
+			input = {
+				mappings = {
+					n = {
+						["q"] = "Close",
+						["p"] = "HistoryPrev",
+						["n"] = "HistoryNext",
+					},
+					i = {
+						["<C-p>"] = "HistoryPrev",
+						["<C-n>"] = "HistoryNext",
+					},
+				},
+			},
 		},
-		init = function()
-			vim.g.barbar_auto_setup = false
-		end,
-		opts = {},
+		event = "VeryLazy",
 	},
-	{ "lukas-reineke/indent-blankline.nvim", opts = { show_current_context = true }, event = "BufReadPost" },
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		event = "BufReadPost",
+		main = "ibl",
+		opts = {
+			scope = { enabled = false },
+		},
+	},
 	{
 		"nvim-lualine/lualine.nvim",
-		lazy = false,
 		dependencies = { "nvim-tree/nvim-web-devicons" },
-		config = function()
-			local lualine = require("lualine")
-			lualine.setup({
-				options = {
-					theme = "auto",
-					section_separators = "",
-					component_separators = "",
+		opts = {
+			theme = "catppuccin",
+			options = {
+				component_separators = "|",
+				section_separators = { left = "", right = "" },
+			},
+			sections = {
+				lualine_x = {
+					{
+						require("noice").api.statusline.mode.get,
+						cond = require("noice").api.statusline.mode.has,
+						color = { fg = "#ff9e64" },
+					},
+					{
+						require("noice").api.status.command.get,
+						cond = require("noice").api.status.command.has,
+						color = { fg = "#ff9e64" },
+					},
 				},
-				tabline = {},
-				extensions = {},
-			})
-		end,
+				lualine_a = {
+					{
+						"buffers",
+					},
+				},
+			},
+		},
+	},
+	{
+		"folke/noice.nvim",
+		event = "VeryLazy",
+		dependencies = {
+			"MunifTanjim/nui.nvim",
+			"rcarriga/nvim-notify",
+		},
+		opts = {
+			lsp = {
+				hover = {
+					silent = true,
+				},
+			},
+			routes = {
+				{
+					filter = {
+						event = "notify",
+						find = "No information available",
+					},
+					opts = {
+						skip = true,
+					},
+				},
+			},
+		},
 	},
 }
-
-return M

@@ -1,21 +1,59 @@
-local M = {
+return {
 	{
-		"ciza99/poimandres.nvim",
-		lazy = false,
+		"catppuccin/nvim",
+		name = "catppuccin",
 		priority = 1000,
-		config = function()
-			vim.cmd([[colorscheme poimandres]])
+		opts = { flavor = "mocha", no_italic = true },
+		config = function(_, opts)
+			require("catppuccin").setup(opts)
+
+			vim.cmd([[colorscheme catppuccin]])
 		end,
 	},
 
 	-- {
-	-- 	"catppuccin/nvim",
-	-- 	name = "catppuccin",
+	-- 	"rebelot/kanagawa.nvim",
+	-- 	priority = 1000,
+	-- 	config = function()
+	-- 		vim.cmd([[colorscheme kanagawa]])
+	-- 	end,
+	-- },
+
+	-- {
+	-- 	"oxfist/night-owl.nvim",
+	-- 	lazy = false, -- make sure we load this during startup if it is your main colorscheme
+	-- 	priority = 1000, -- make sure to load this before all the other start plugins
+	-- 	config = function()
+	-- 		vim.cmd([[colorscheme night-owl]])
+	-- 	end,
+	-- },
+
+	-- {
+	-- 	"bluz71/vim-nightfly-guicolors",
+	-- 	priority = 1000,
+	-- 	config = function()
+	-- 		vim.cmd([[colorscheme nightfly]])
+	-- 	end,
+	-- },
+
+	-- {
+	-- 	"folke/tokyonight.nvim",
+	-- 	lazy = false,
+	-- 	priority = 1000,
+	-- 	opts = {},
+	-- 	config = function()
+	-- 		vim.cmd([[colorscheme tokyonight]])
+	-- 	end,
+	-- },
+
+	-- {
+	-- 	"ciza99/poimandres.nvim",
 	-- 	lazy = false,
 	-- 	priority = 1000,
 	-- 	config = function()
-	-- 		vim.cmd([[colorscheme catppuccin-macchiato]])
+	-- 		vim.cmd([[colorscheme poimandres]])
 	-- 	end,
+	-- },
 
 	-- {
 	-- 	"ellisonleao/gruvbox.nvim",
@@ -48,5 +86,3 @@ local M = {
 	-- 	},
 	-- },
 }
-
-return M
