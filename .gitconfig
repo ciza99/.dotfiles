@@ -5,3 +5,5 @@
 	editor = nvim
 [init]
 	defaultBranch = main
+[includeIf "gitdir:~/coding/work/**"]
+    path = ~/coding/work/.gitconfig

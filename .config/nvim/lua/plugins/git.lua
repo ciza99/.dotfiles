@@ -4,8 +4,6 @@ return {
 		dependencies = {
 			"nvim-lua/plenary.nvim", -- required
 			"sindrets/diffview.nvim", -- optional - Diff integration
-
-			"nvim-telescope/telescope.nvim", -- optional
 		},
 		opts = {},
 		config = function(_, opts)
@@ -14,10 +12,11 @@ return {
 
 			local map = vim.keymap.set
 
-			map("n", "<leader>gj", neogit.open, { silent = true, noremap = true })
+			map("n", "<leader>go", neogit.open, { silent = true, noremap = true })
 			map("n", "<leader>gc", ":Neogit commit<CR>", { silent = true, noremap = true })
 			map("n", "<leader>gp", ":Neogit pull<CR>", { silent = true, noremap = true })
 			map("n", "<leader>gP", ":Neogit push<CR>", { silent = true, noremap = true })
+			map("n", "<leader>gD", ":DiffviewOpen", { silent = true, noremap = true })
 		end,
 	},
 	{

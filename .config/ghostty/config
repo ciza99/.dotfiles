@@ -1,0 +1,23 @@
+# basic
+shell-integration = zsh
+
+# theme
+theme = catppuccin-mocha
+
+# font size
+font-size = 14
+
+# cursor
+cursor-style = block
+cursor-style-blink = false
+cursor-invert-fg-bg = true
+shell-integration-features = no-cursor
+
+# mouse
+mouse-hide-while-typing = true
+
+# quick terminal
+keybind = global:ctrl+;=toggle_quick_terminal
+
+# font
+font-feature = -calt

@@ -1,0 +1,2 @@
+cmd - n : open -a /opt/homebrew/bin/ghostty
+cmd - p : open -a "arc"

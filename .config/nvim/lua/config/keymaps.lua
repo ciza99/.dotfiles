@@ -55,6 +55,10 @@ vim.api.nvim_set_keymap("n", "<leader>bh", "<Cmd>bprev<enter>", { noremap = fals
 vim.api.nvim_set_keymap("n", "<leader>bl", "<Cmd>bnext<enter>", { noremap = false })
 vim.api.nvim_set_keymap("n", "<leader>bd", "<Cmd>bdelete<enter>", { noremap = false })
 
+-- wildmenu in command line
+-- vim.api.nvim_set_keymap("c", "<c-j>", 'v:lua.get_wildmenu_key("<right>", "<down>")', { expr = true })
+-- vim.api.nvim_set_keymap("c", "<c-k>", 'v:lua.get_wildmenu_key("<left>", "<up>")', { expr = true })
+
 -- map.set("n", "<Tab>", "<Cmd>BufferNext<CR>", {})
 -- map.set("n", "<S-Tab>", "<Cmd>BufferPrevious<CR>", {})
 --

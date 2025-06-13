@@ -1,52 +1,25 @@
 return {
 	{
 		"neovim/nvim-lspconfig",
+		dependencies = { "saghen/blink.cmp" },
 		event = { "BufReadPre", "BufNewFile" },
-		dependencies = {
-			"hrsh7th/cmp-nvim-lsp",
-		},
 		config = function()
-			local lspconfig = require("lspconfig")
-			local cmp_nvim_lsp = require("cmp_nvim_lsp")
-
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 				callback = function(ev)
 					-- Buffer local mappings.
 					-- See `:help vim.lsp.*` for documentation on any of the below functions
-					local telescope_builtin = require("telescope.builtin")
 
 					local opts = { buffer = ev.buf, silent = true }
 					local map = function(mode, key, action)
 						vim.keymap.set(mode, key, action, opts)
 					end
 
-					-- set keybinds
-					map("n", "gR", telescope_builtin.lsp_references) -- show definition, references
-
-					map("n", "gD", vim.lsp.buf.declaration) -- go to declaration
-
-					map("n", "gd", telescope_builtin.lsp_definitions) -- show lsp definitions
-
-					map("n", "gi", telescope_builtin.lsp_implementations) -- show lsp implementations
-
-					map("n", "gt", telescope_builtin.lsp_type_definitions) -- show lsp type definitions
-
 					map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action) -- see available code actions, in visual mode will apply to selection
 
 					map("n", "<leader>rn", vim.lsp.buf.rename) -- smart rename
 
-					map("n", "<leader>db", telescope_builtin.diagnostics) -- show  diagnostics for file
-
 					map("n", "<leader>df", vim.diagnostic.open_float) -- show diagnostics for line
-
-					map("n", "<leader>df", vim.diagnostic.open_float) -- show diagnostics for line
-
-					map("n", "<leader>df", vim.diagnostic.open_float) -- show diagnostics for line
-
-					map("n", "<leader>ds", telescope_builtin.lsp_document_symbols) -- show diagnostics for line
-
-					map("n", "<leader>ws", telescope_builtin.lsp_dynamic_workspace_symbols) -- show diagnostics for line
 
 					map("n", "[d", vim.diagnostic.goto_prev) -- jump to previous diagnostic in buffer
 
@@ -58,16 +31,8 @@ return {
 				end,
 			})
 
-			local capabilities = cmp_nvim_lsp.default_capabilities()
-
-			-- Change the Diagnostic symbols in the sign column (gutter)
-			local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
-			for type, icon in pairs(signs) do
-				local hl = "DiagnosticSign" .. type
-				vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-			end
-
-			-- CONFIGURE SERVERS
+			local capabilities = require("blink.cmp").get_lsp_capabilities()
+			local lspconfig = require("lspconfig")
 
 			lspconfig["html"].setup({
 				capabilities = capabilities,
@@ -97,6 +62,20 @@ return {
 				},
 			})
 
+			lspconfig["tailwindcss"].setup({
+				capabilities = capabilities,
+				settings = {
+					tailwindCSS = {
+						experimental = {
+							classRegex = {
+								{ "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
+								{ "cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
+							},
+						},
+					},
+				},
+			})
+
 			lspconfig["ts_ls"].setup({
 				capabilities = capabilities,
 			})
@@ -115,20 +94,6 @@ return {
 
 			lspconfig["rust_analyzer"].setup({
 				capabilities = capabilities,
-			})
-
-			lspconfig["tailwindcss"].setup({
-				capabilities = capabilities,
-				settings = {
-					tailwindCSS = {
-						experimental = {
-							classRegex = {
-								{ "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
-								{ "cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
-							},
-						},
-					},
-				},
 			})
 
 			lspconfig["prismals"].setup({

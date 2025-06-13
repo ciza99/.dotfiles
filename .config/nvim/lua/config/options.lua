@@ -10,7 +10,7 @@ opt.relativenumber = true
 vim.wo.number = true
 
 -- scrolling
-opt.scrolloff = 12
+opt.scrolloff = 999
 
 -- cursor
 opt.guicursor = ""
