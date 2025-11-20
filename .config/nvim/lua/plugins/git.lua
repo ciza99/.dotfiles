@@ -16,8 +16,19 @@ return {
 			map("n", "<leader>gc", ":Neogit commit<CR>", { silent = true, noremap = true })
 			map("n", "<leader>gp", ":Neogit pull<CR>", { silent = true, noremap = true })
 			map("n", "<leader>gP", ":Neogit push<CR>", { silent = true, noremap = true })
-			map("n", "<leader>gD", ":DiffviewOpen", { silent = true, noremap = true })
+			map("n", "<leader>gD", ":DiffviewOpen<CR>", { silent = true, noremap = true })
 		end,
+	},
+	{
+		"sindrets/diffview.nvim",
+		opts = {
+			keymaps = {
+				file_panel = {
+					{ "n", "<C-c>", "<Cmd>DiffviewClose<CR>", { desc = "Close Diffview" } },
+					{ "n", "q", "<Cmd>DiffviewClose<CR>", { desc = "Close Diffview" } },
+				},
+			},
+		},
 	},
 	{
 		"lewis6991/gitsigns.nvim",
@@ -73,7 +84,7 @@ return {
 				map("n", "<leader>hD", function()
 					gs.diffthis("~")
 				end)
-				map("n", "<leader>gtd", gs.toggle_deleted)
+				map("n", "<leader>ht", gs.toggle_deleted)
 
 				-- Text object
 				map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")

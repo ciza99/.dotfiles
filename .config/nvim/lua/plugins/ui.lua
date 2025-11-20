@@ -1,24 +1,18 @@
 return {
 	{ "petertriho/nvim-scrollbar", event = "VeryLazy", opts = {} },
 	{
+		"catgoose/nvim-colorizer.lua",
+		event = "BufReadPre",
+		opts = {
+			user_default_options = {
+				names = false,
+			},
+		},
+	},
+	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
-			local clients_lsp = function()
-				local bufnr = vim.api.nvim_get_current_buf()
-
-				local clients = vim.lsp.get_clients()
-				if next(clients) == nil then
-					return ""
-				end
-
-				local c = {}
-				for _, client in pairs(clients) do
-					table.insert(c, client.name)
-				end
-				return " " .. table.concat(c, "|")
-			end
-
 			require("lualine").setup({
 				options = {
 					component_separators = "",
@@ -57,7 +51,7 @@ return {
 							update_in_insert = true,
 						},
 					},
-					lualine_y = { clients_lsp },
+					lualine_y = {},
 					lualine_z = {
 						{ "location", separator = { left = "", right = " " }, icon = "" },
 					},

@@ -34,18 +34,18 @@ return {
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
 			local lspconfig = require("lspconfig")
 
-			lspconfig["html"].setup({
+			vim.lsp.config("html", {
 				capabilities = capabilities,
 			})
 
-			lspconfig["cssls"].setup({
+			vim.lsp.config("cssls", {
 				capabilities = capabilities,
 				settings = {
 					package_manager = "yarn",
 				},
 			})
 
-			lspconfig["emmet_ls"].setup({
+			vim.lsp.config("emmet_ls", {
 				capabilities = capabilities,
 				filetypes = {
 					"css",
@@ -62,7 +62,7 @@ return {
 				},
 			})
 
-			lspconfig["tailwindcss"].setup({
+			vim.lsp.config("tailwindcss", {
 				capabilities = capabilities,
 				settings = {
 					tailwindCSS = {
@@ -76,11 +76,11 @@ return {
 				},
 			})
 
-			lspconfig["ts_ls"].setup({
+			vim.lsp.config("ts_ls", {
 				capabilities = capabilities,
 			})
 
-			lspconfig["eslint"].setup({
+			vim.lsp.config("eslint", {
 				capabilities = capabilities,
 				filetypes = {
 					"javascript",
@@ -92,15 +92,15 @@ return {
 				},
 			})
 
-			lspconfig["rust_analyzer"].setup({
+			vim.lsp.config("rust_analyzer", {
 				capabilities = capabilities,
 			})
 
-			lspconfig["prismals"].setup({
+			vim.lsp.config("prismals", {
 				capabilities = capabilities,
 			})
 
-			lspconfig["lua_ls"].setup({
+			vim.lsp.config("lua_ls", {
 				capabilities = capabilities,
 				settings = {
 					Lua = {
@@ -124,20 +124,42 @@ return {
 				},
 			})
 
-			-- lspconfig["ocamllsp"].setup({
-			-- 	cmd = { "ocamllsp" },
-			-- 	filetypes = { "ocaml", "ocaml.menhir", "ocaml.interface", "ocaml.ocamllex", "reason", "dune" },
-			-- 	root_dir = lspconfig.util.root_pattern(
-			-- 		"*.opam",
-			-- 		"esy.json",
-			-- 		"package.json",
-			-- 		".git",
-			-- 		"dune-project",
-			-- 		"dune-workspace"
-			-- 	),
-			-- 	on_attach = on_attach,
-			-- 	capabilities = capabilities,
-			-- })
+			vim.lsp.config("zls", {
+				capabilities = capabilities,
+			})
+
+			vim.lsp.config("postgres_lsp", {
+				capabilities = capabilities,
+			})
+
+			vim.lsp.config("ocamllsp", {
+				cmd = { "ocamllsp" },
+				filetypes = { "ocaml", "ocaml.menhir", "ocaml.interface", "ocaml.ocamllex", "reason", "dune" },
+				root_dir = lspconfig.util.root_pattern(
+					"*.opam",
+					"esy.json",
+					"package.json",
+					".git",
+					"dune-project",
+					"dune-workspace"
+				),
+				capabilities = capabilities,
+			})
+
+			vim.lsp.enable({
+				"html",
+				"cssls",
+				"emmet_ls",
+				"tailwindcss",
+				"ts_ls",
+				"eslint",
+				"rust_analyzer",
+				"prismals",
+				"lua_ls",
+				"zls",
+				"postgres_lsp",
+				-- "ocamllsp",
+			})
 		end,
 	},
 }

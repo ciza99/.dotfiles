@@ -10,11 +10,11 @@ return {
 		-- keymaps
 		local map = vim.keymap.set
 
-		map("n", "<leader>ma", function()
+		map("n", "<leader>ha", function()
 			harpoon:list():add()
 		end)
 
-		map("n", "<leader>ml", function()
+		map("n", "<leader>hl", function()
 			harpoon.ui:toggle_quick_menu(harpoon:list())
 		end)
 

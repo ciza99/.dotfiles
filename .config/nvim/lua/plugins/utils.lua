@@ -24,18 +24,18 @@ return {
 		"echasnovski/mini.pairs",
 		opts = {},
 	},
-	{
-		"echasnovski/mini.indentscope",
-		config = function()
-			local indent = require("mini.indentscope")
-			indent.setup({
-				draw = {
-					delay = 0,
-					animation = indent.gen_animation.none(),
-				},
-			})
-		end,
-	},
+	-- {
+	-- 	"echasnovski/mini.indentscope",
+	-- 	config = function()
+	-- 		local indent = require("mini.indentscope")
+	-- 		indent.setup({
+	-- 			draw = {
+	-- 				delay = 0,
+	-- 				animation = indent.gen_animation.none(),
+	-- 			},
+	-- 		})
+	-- 	end,
+	-- },
 	-- {
 	-- 	"echasnovski/mini.files",
 	-- 	opts = {},
@@ -52,22 +52,7 @@ return {
 	},
 	{
 		"echasnovski/mini.splitjoin",
-		config = function()
-			local splitjoin = require("mini.splitjoin")
-			splitjoin.setup({
-				mappings = {
-					toggle = "",
-				},
-			})
-
-			vim.keymap.set({ "n", "x" }, "gsj", function()
-				splitjoin.join()
-			end, { noremap = true, silent = true, desc = "Join args" })
-
-			vim.keymap.set({ "n", "x" }, "gsk", function()
-				splitjoin.split()
-			end, { noremap = true, silent = true, desc = "Split args" })
-		end,
+		opts = {},
 	},
 	{
 		"laytan/cloak.nvim",

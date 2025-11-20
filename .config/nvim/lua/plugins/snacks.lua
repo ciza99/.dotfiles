@@ -12,7 +12,19 @@ return {
 		bigfile = { enabled = false },
 		dashboard = { enabled = true },
 		explorer = { enabled = false },
-		indent = { enabled = false },
+		---@class snacks.indent.Config
+		indent = {
+			enabled = false,
+			indent = {
+				char = "╎",
+			},
+			scope = {
+				char = "╎",
+			},
+			animate = {
+				enabled = false,
+			},
+		},
 		input = { enabled = true },
 		image = { enabled = false },
 		lazygit = { enabled = false },
@@ -28,14 +40,14 @@ return {
 			win = {
 				input = {
 					keys = {
-						["|"] = { "edit_vsplit", mode = { "i", "n" } },
-						["_"] = { "edit_split", mode = { "i", "n" } },
+						["|"] = { "edit_vsplit", mode = { "n" } },
+						["_"] = { "edit_split", mode = { "n" } },
 					},
 				},
 				list = {
 					keys = {
-						["|"] = { "edit_vsplit", mode = { "i", "n" } },
-						["_"] = { "edit_split", mode = { "i", "n" } },
+						["|"] = { "edit_vsplit", mode = { "n" } },
+						["_"] = { "edit_split", mode = { "n" } },
 					},
 				},
 			},

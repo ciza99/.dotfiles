@@ -7,8 +7,8 @@ return {
 		require("copilot").setup({
 			panel = {
 				keymap = {
-					jump_prev = "<C-[>",
-					jump_next = "<C-[>",
+					jump_prev = "<C-p>",
+					jump_next = "<C-n>",
 					accept = "<CR>",
 					refresh = "gr",
 					open = "<C-s>",
