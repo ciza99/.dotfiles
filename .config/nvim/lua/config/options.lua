@@ -1,5 +1,8 @@
 local opt = vim.opt
 
+-- hide command line unless needed
+opt.cmdheight = 0
+
 -- encoding
 vim.scriptencoding = "utf-8"
 opt.encoding = "utf-8"

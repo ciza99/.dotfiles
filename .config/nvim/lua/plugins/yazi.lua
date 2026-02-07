@@ -34,8 +34,8 @@ return {
 		floating_window_scaling_factor = 0.85,
 		keymaps = {
 			show_help = "<c-h>",
-			open_file_in_vertical_split = "<c-s>",
-			open_file_in_horizontal_split = "<c-j>",
+			open_file_in_vertical_split = "<C-l>",
+			open_file_in_horizontal_split = "<C-j>",
 			open_file_in_tab = "<c-tab>",
 			grep_in_directory = "<c-s>",
 			replace_in_directory = "<c-g>",

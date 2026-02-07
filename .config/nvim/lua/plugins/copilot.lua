@@ -3,6 +3,7 @@ return {
 	cmd = "Copilot",
 	build = ":Copilot auth",
 	event = "BufReadPost",
+	enabled = true,
 	config = function()
 		require("copilot").setup({
 			panel = {
@@ -11,7 +12,7 @@ return {
 					jump_next = "<C-n>",
 					accept = "<CR>",
 					refresh = "gr",
-					open = "<C-s>",
+					open = "<C-,>",
 				},
 				layout = {
 					position = "bottom", -- | top | left | right | horizontal | vertical

@@ -21,9 +21,13 @@ return {
 
 					map("n", "<leader>df", vim.diagnostic.open_float) -- show diagnostics for line
 
-					map("n", "[d", vim.diagnostic.goto_prev) -- jump to previous diagnostic in buffer
+					map("n", "[d", function()
+						vim.diagnostic.jump({ count = -1, float = true })
+					end) -- jump to previous diagnostic in buffer
 
-					map("n", "]d", vim.diagnostic.goto_next) -- jump to next diagnostic in buffer
+					map("n", "]d", function()
+						vim.diagnostic.jump({ count = 1, float = true })
+					end) -- jump to next diagnostic in buffer
 
 					map("n", "K", vim.lsp.buf.hover) -- show documentation for what is under cursor
 
@@ -146,6 +150,11 @@ return {
 				capabilities = capabilities,
 			})
 
+			vim.lsp.config("kotlin_lsp", {
+				capabilities = capabilities,
+				filetypes = { "kotlin" },
+			})
+
 			vim.lsp.enable({
 				"html",
 				"cssls",
@@ -158,6 +167,7 @@ return {
 				"lua_ls",
 				"zls",
 				"postgres_lsp",
+				"kotlin_lsp",
 				-- "ocamllsp",
 			})
 		end,

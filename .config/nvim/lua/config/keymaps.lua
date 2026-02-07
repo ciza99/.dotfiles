@@ -23,7 +23,7 @@ map.set("v", "<", "<gv")
 map.set("v", ">", ">gv")
 
 -- quickfix list
-map.set("n", "<leader>q", ":copen<CR>")
+map.set("n", "<leader>qq", ":copen<CR>")
 map.set("n", "<leader>qn", ":cnext<CR>")
 map.set("n", "<leader>qp", ":cprev<CR>")
 

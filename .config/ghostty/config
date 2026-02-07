@@ -2,10 +2,10 @@
 shell-integration = zsh
 
 # theme
-theme = catppuccin-mocha
+theme = kanagawa-wave.conf
 
 # font size
-font-size = 14
+font-size = 18
 
 # cursor
 cursor-style = block

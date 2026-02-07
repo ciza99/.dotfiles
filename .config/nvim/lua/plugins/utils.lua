@@ -7,14 +7,7 @@ return {
 	{
 		"echasnovski/mini.comment",
 		dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
-		opts = {
-			-- tsx, jsx, html, ...
-			custom_commentstring = function()
-				require("ts_context_commentstring.internal").calculate_commentstring({
-					key = "commentstring" or vim.bo.commentstring,
-				})
-			end,
-		},
+		opts = {},
 	},
 	{
 		"echasnovski/mini.operators",
